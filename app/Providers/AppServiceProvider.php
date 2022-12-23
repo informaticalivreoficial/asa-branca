@@ -32,6 +32,12 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         Blade::aliasComponent('admin.components.message', 'message');
 
+        //Links
+        $Links = Menu::whereNull('id_pai')->orderby('created_at', 'DESC')
+                        ->available()
+                        ->get();        
+        View()->share('Links', $Links);
+
         $configuracoes = \App\Models\Configuracoes::find(1); 
         View()->share('configuracoes', $configuracoes);
         

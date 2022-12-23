@@ -13,137 +13,252 @@
     <meta name="distribution" content="web">
     <meta name="rating" content="general">
     <meta name="date" content="Dec 26">
-    <meta name="google-site-verification" content="LqBkQawC_hN5jiisQ5S2WXVkDVgpvicjUV2KC86dLQs" />
 
     {!! $head ?? '' !!}
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Bootstrap core CSS -->
-    <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/bootstrap.min.css')}}" rel="stylesheet"/>
-    <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/plugins.css')}}" rel="stylesheet"/>
-    <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/style.css')}}" rel="stylesheet"/>
-    <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/blue.css')}}" rel="stylesheet"/>
-    <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/renato.css')}}" rel="stylesheet"/>
-    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'/>
-    <link href='https://fonts.googleapis.com/css?family=Karla:400,400italic,700,700italic' rel='stylesheet' type='text/css'/>
-    <link href="{{url('frontend/'.$configuracoes->template.'/assets/type/icons.css')}}" rel="stylesheet"/>
-    <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/jquery-ui.css')}}" rel="stylesheet"/>
-    
-    
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->    
-    
-    <!-- FAVICON -->
     <link rel="shortcut icon" href="{{$configuracoes->getfaveicon()}}"/>
+    <link rel="apple-touch-icon" href="{{$configuracoes->getfaveicon()}}"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="{{$configuracoes->getfaveicon()}}"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="{{$configuracoes->getfaveicon()}}"/>
+            
+    <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/bootstrap/bootstrap.css')}}" rel="stylesheet" media="screen"/>
+    <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/bootstrap/bootstrap-responsive.css')}}" rel="stylesheet" media="screen"/>
+    <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/slide/camera.css')}}" rel="stylesheet" media="screen"/>
+    <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/slide_rotation/style.css')}}" rel="stylesheet" media="all" />      
+    <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/style.css')}}" rel="stylesheet" media="all" />
+    <link href="{{url('frontend/'.$configuracoes->template.'/assets/js/fancybox/jquery.fancybox.css')}}" rel="stylesheet" media="all" />
+    
+    <link href="https://fonts.googleapis.com/css?family=Merienda:400,700" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Italianno" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Monda" rel="stylesheet"/>
+    
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- styles for IE -->
+    <!--[if IE 8]>
+        <link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
+    <![endif]-->
 
     @hasSection('css')
         @yield('css')
     @endif
  </head>
  <body>
-
-    <main class="body-wrapper">
-        <div class="navbar">
-            <div class="navbar-header">
-                <div class="basic-wrapper"> 
-                    <div class="navbar-brand"> 
-                        <a href="{{route('web.home')}}">
-                            <img src="{{$configuracoes->getLogomarca()}}" class="logo-light" alt="{{$configuracoes->nomedosite}}" />
-                            <img src="{{$configuracoes->getLogomarca()}}" class="logo-dark" alt="{{$configuracoes->nomedosite}}" />
-                        </a> 
-                    </div>
-                    <a class="btn responsive-menu" data-toggle="collapse" data-target=".navbar-collapse"><i></i></a>
-                </div> 
-            </div>
-            <nav class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="#inicio">HOME</a></li>
-                    <li><a href="#agenda">AGENDA</a></li>
-                    <li><a href="#discografia">DISCOGRAFIA</a></li>
-                    <li><a href="#videos">VÍDEOS</a></li>
-                    <li><a href="#fotos">FOTOS</a></li>
-                    <li><a href="#contratante">CONTRATANTE</a></li>
-                    <li><a href="#contato">CONTATO</a></li>
-                    <li><a class="modalcadastro" href="#">CADASTRE-SE</a></li>
-                </ul>
-            </nav>            
-            <div class="social-wrapper">
-                <ul class="social naked">
-                    @if ($configuracoes->facebook)
+    <nav>
+        <div class="container">
+          <div class="row-fluid" style="text-align: center;">         
+                <ul id="menu" class="sf-menu">
+                    <li><a href="{{route('web.home')}}">Início</a></li>
+                    @if (!empty($Links) && $Links->count())                            
+                        @foreach($Links as $menuItem)                            
                         <li>
-                            <a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook">
-                                <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/icon-facebook.png')}}" alt="Facebook" width="16" />
-                            </a>
+                            <a {{($menuItem->target == 1 ? 'target=_blank' : '')}} href="{{($menuItem->tipo == 'Página' ? route('web.pagina', [ 'slug' => ($menuItem->post != null ? $menuItem->PostObject->slug : '#') ]) : $menuItem->url)}}">{{ $menuItem->titulo }}</a>
+                            @if( $menuItem->children && $menuItem->parent)
+                            <ul>
+                                @foreach($menuItem->children as $subMenuItem)
+                                <li><a {{($subMenuItem->target == 1 ? 'target=_blank' : '')}} href="{{($subMenuItem->tipo == 'Página' ? route('web.pagina', [ 'slug' => ($subMenuItem->post != null ? $subMenuItem->PostObject->slug : '#') ]) : $subMenuItem->url)}}">{{ $subMenuItem->titulo }}</a></li>                                        
+                                @endforeach
+                            </ul>
+                            @endif
                         </li>
+                        @endforeach
+                    @endif
+                    <?php
+                        // $readCardapioMenu = read('cardapio',"WHERE exibir = '1' AND id_pai IS NULL");
+                        // foreach($readCardapioMenu as $cardapioMenu);
+                        // if($cardapioMenu){
+                        //     echo '<li><a href="#">Cardápio</a>';
+                        //     echo '<ul>';
+                        //     foreach($readCardapioMenu as $cardapioMenus):
+                        //         echo '<li><a href="'.BASE.'/pagina/cardapio/'.$cardapioMenus['url'].'">'.$cardapioMenus['nome'].'</a></li>';
+                        //     endforeach;
+                        //     echo '</ul>';
+                        //     echo '</li>';
+                        // }
+                    ?>
+              <li><a href="{{route('web.galerias')}}" title="Galerias">Fotos</a></li>
+              <li><a href="{{route('web.atendimento')}}" title="Atendimento">Atendimento</a></li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <!-- INÍCIO DO CONTEÚDO DO SITE -->
+    @yield('content')
+    <!-- FIM DO CONTEÚDO DO SITE -->
+
+    <footer>
+        <div class="container">
+            <div class="row-fluid"> 
+                <div class="span5">
+                <h2>{{$configuracoes->nomedosite}}</h2>
+                @if($configuracoes->rua)
+                    <p style="font-size:14px;">
+                        {{$configuracoes->rua}}
+                        @if($configuracoes->num)
+                            , {{$configuracoes->num}}
+                        @endif
+                        @if($configuracoes->complemento)
+                            <br /> {{$configuracoes->complemento}}
+                        @endif
+                        @if($configuracoes->bairro)
+                            , {{$configuracoes->bairro}}
+                        @endif
+                        @if($configuracoes->cidade)  
+                            - {{\App\Helpers\Cidade::getCidadeNome($configuracoes->cidade, 'cidades')}}
+                        @endif
+                    </p>                            
+                @endif
+                <p>    
+                    @if($configuracoes->telefone1)
+                        <strong>Telefone:</strong> {{$configuracoes->telefone1}}
+                            @if($configuracoes->telefone2)
+                                <br /><strong>Telefone:</strong> {{$configuracoes->telefone2}}
+                            @endif
+                            @if($configuracoes->telefone3)
+                                <br /><strong>Telefone:</strong> {{$configuracoes->telefone3}}
+                            @endif
+                        
+                    @endif
+                </p>
+                @if($configuracoes->whatsapp)
+                    <p><img src="{{url('frontend/'.$configuracoes->template.'/assets/images/zapzap.png')}}" alt="WhatsApp" /> {{$configuracoes->whatsapp}}</p>
+                @endif
+                @if($configuracoes->email)
+                    <p><strong>E-mail:</strong> <a href="mailto:{{$configuracoes->email}}">{{$configuracoes->email}}</a></span></p>
+                @endif 
+                @if($configuracoes->email1)
+                    <p><strong>E-mail:</strong> <a href="mailto:{{$configuracoes->email1}}">{{$configuracoes->email1}}</a></span></p>
+                @endif 
+                <ul class="social">
+                    @if ($configuracoes->facebook)
+                        <li><a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/facebook.png')}}" alt="Facebook" /></a>
                     @endif
                     @if ($configuracoes->twitter)
-                        <li>
-                            <a target="_blank" href="{{$configuracoes->twitter}}" title="Twitter">
-                                <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/icon-twitter.png')}}" alt="Twitter" width="16" />
-                            </a>
-                        </li>
+                        <li><a target="_blank" href="{{$configuracoes->twitter}}" title="Twitter"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/twitter.png')}}" alt="Twitter" /></a>
                     @endif
                     @if ($configuracoes->instagram)
-                        <li>
-                            <a target="_blank" href="{{$configuracoes->instagram}}" title="Instagram">
-                                <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/icon-instagran.png')}}" alt="Instagram" width="16" />
-                            </a>
-                        </li>
+                        <li><a target="_blank" href="{{$configuracoes->instagram}}" title="Instagram"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/instagram.png')}}" alt="Instagram" /></a>
                     @endif
-                    @if ($configuracoes->spotify)
-                        <li>
-                            <a target="_blank" href="{{$configuracoes->spotify}}" title="Spotify">
-                                <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/icon-spotify.png')}}" alt="Spotify" width="16" />
-                            </a>
-                        </li>
+                    @if ($configuracoes->linkedin)
+                        <li><a target="_blank" href="{{$configuracoes->linkedin}}" title="linkedin"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/linkedin.png')}}" alt="linkedin" /></a>
                     @endif
                     @if ($configuracoes->youtube)
-                        <li>
-                            <a target="_blank" href="{{$configuracoes->youtube}}" title="Youtube">
-                                <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/icon-youtube.png')}}" alt="Youtube" width="16" />
-                            </a>
-                        </li>
+                        <li><a target="_blank" href="{{$configuracoes->youtube}}" title="Youtube"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/youtube.png')}}" alt="Youtube" /></a>
                     @endif
-                    @if ($configuracoes->soundclound)
-                        <li>
-                            <a target="_blank" href="{{$configuracoes->soundclound}}" title="SoundCloud">
-                                <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/icon-soundcloud.png')}}" alt="SoundCloud" width="16" />
-                            </a>
-                        </li>
-                    @endif                    
                 </ul>
-            </div>
+                
+                <div class="clearfix"></div>
+                
+                <h2>Receba novidades no seu e-mail</h2>
+    
+                <!-- Begin MailChimp Signup Form -->
+                  <div id="mc_embed_signup">
+                        <form action="" method="post" class="j_formsubmitnews">
+                            <div class="alertas"></div>
+                            <input class="noclear" type="hidden" name="action" value="newsletter" />
+                            <!-- HONEYPOT -->
+                            <input type="hidden" class="noclear" name="bairro" value="" />
+                            <input type="text" class="noclear" style="display: none;" name="cidade" value="" />
+                            <input type="email" value="" name="email" class="email form_hide" placeholder="Digite seu e-mail"/>
+                            <input type="submit" value="Cadastrar" id="submit" class="button subscribe-form-submit noclear form_hide"/>           
+                        </form>                 
+                  </div>
+                  <!--End mc_embed_signup-->
+    
+                <div class="clearfix"></div>
+    
+              </div>
+              
+              <div class="span7">
+                <!-- PORÇÕES E DRINKS -->
+                <?php
+                // $readPorcoesRand1 = read('cardapio',"WHERE exibir = '1' AND id_pai IS NOT NULL ORDER BY RAND() LIMIT 6");
+                // foreach($readPorcoesRand1 as $porcoesRand1);
+                // if($porcoesRand1){
+                //     echo '<h2>Conheça Nosso Cardápio</h2>';
+                //     foreach($readPorcoesRand1 as $porcoesRands1):
+                //     echo '<div class="menu_list img_decoration">';
+                //     echo '<div class="span3">';
+                //     if($porcoesRands1['img'] == ''){
+                //        echo '<a href="'.BASE.'/pagina/cardapio/'.getCardapio($porcoesRands1['id_pai'], 'url').'"><img src="'.BASE.'/tim.php?src='.PATCH.'/images/image.jpg&w=770&h=511&q=100&zc=1" alt="'.$porcoesRands1['nome'].'" /></a>';
+                //     }else{
+                //        echo '<a href="'.BASE.'/pagina/cardapio/'.getCardapio($porcoesRands1['id_pai'], 'url').'"><img src="'.BASE.'/tim.php?src='.BASE.'/uploads/cardapio/'.$porcoesRands1['img'].'&w=770&h=511&q=100&zc=1" alt="'.$porcoesRands1['nome'].'"/></a>';
+                //     }
+                //     echo '</div>';
+                    
+                //     echo '<div class="span9" style="padding-left:5px;">';
+                //     echo '<h2>'.$porcoesRands1['nome'].'</h2>';
+                //     echo ''.$porcoesRands1['content'].'';
+                //     echo '</div>';
+                    
+                //     echo '</div>';
+                //     echo '<div class="clearfix"></div>';
+                //     endforeach;                
+                // }else{
+                //     echo '';
+                // }	
+                ?>
+              </div>
+    
+             
         </div>
+    </footer>
 
-        <!-- INÍCIO DO CONTEÚDO DO SITE -->
-        @yield('content')
-        <!-- FIM DO CONTEÚDO DO SITE --> 
-
-        <footer class="footer inverse-wrapper">
-            <div class="sub-footer">
-                <div class="container inner">
-                    <p class="text-center">© {{$configuracoes->ano_de_inicio}} - {{date('Y')}} {{$configuracoes->nomedosite}}. Todos os direitos reservados. <a href="{{route('web.politica')}}">Política de Privacidade</a></p>
-                    
-                    
+    <div class="copry"> 
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span6">
+                    <p>© {{$configuracoes->ano_de_inicio}} - {{date('Y')}} {{$configuracoes->nomedosite}} - Todos os direitos reservados.</p>
+                </div>
+                <div class="span6">              
+                    <ul>
+                        <li><a href="{{route('web.galerias')}}" title="Galerias">Galerias</a></li> 
+                        <li><a href="{{route('web.atendimento')}}" title="Atendimento">Atendimento</a></li>                          
+                        <li><a href="{{route('web.politica')}}" title="Política de Privacidade">Política de Privacidade</a></li>  
+                    </ul>             
                 </div>
             </div>
-        </footer>
-    </main>   
-     
-    <script src="{{url('frontend/'.$configuracoes->template.'/assets/js/jquery.min.js')}}"></script> 
-    <script src="{{url('frontend/'.$configuracoes->template.'/assets/js/bootstrap.min.js')}}"></script> 
-    <script src="{{url('frontend/'.$configuracoes->template.'/assets/js/plugins.js')}}"></script> 
-    <script src="{{url('frontend/'.$configuracoes->template.'/assets/js/classie.js')}}"></script> 
-    <script src="{{url('frontend/'.$configuracoes->template.'/assets/js/jquery.themepunch.tools.min.js')}}"></script> 
-    <script src="{{url('frontend/'.$configuracoes->template.'/assets/js/jquery.inputmask.bundle.min.js')}}"></script>
-    <script src="{{url('frontend/'.$configuracoes->template.'/assets/js/scripts.js')}}"></script>
-    <script src="{{url('frontend/'.$configuracoes->template.'/assets/js/jquery-ui.js')}}"></script> 
+          </div>
+          <div class="container">
+                <div class="row-fluid">
+                    <div class="span12" style="text-align: center;">
+                        <p class="font-accent text-right">
+                            <span class="small text-silver-dark">Desenvolvido por <a style="color:#fff;" target="_blank" href="{{env('DESENVOLVEDOR_URL')}}">{{env('DESENVOLVEDOR')}}</a></span>
+                        </p> 
+                    </div>
+                </div>
+          </div>                  
+    </div>
+    
+    <script src="{{url('frontend/'.$configuracoes->template.'/assets/js/jquery.min.js')}}"></script>         
+    <!--Nav-->
+    <script type="text/javascript" src="{{url('frontend/'.$configuracoes->template.'/assets/js/nav/tinynav.js')}}"></script> 
+    <script type="text/javascript" src="{{url('frontend/'.$configuracoes->template.'/assets/js/nav/superfish.js')}}"></script> 
+    <!--Lightbox--> 
+    <script type="text/javascript" src="{{url('frontend/'.$configuracoes->template.'/assets/js/fancybox/jquery.fancybox.js')}}"></script>
+    <!--Slide-->
+    <script type="text/javascript" src="{{url('frontend/'.$configuracoes->template.'/assets/js/slide/camera.js')}}" ></script>      
+    <script type="text/javascript" src="{{url('frontend/'.$configuracoes->template.'/assets/js/slide/jquery.easing.1.3.min.js')}}"></script>
+    <!-- Slide Border -->
+    <script type="text/javascript" src="{{url('frontend/'.$configuracoes->template.'/assets/js/slide_border/modernizr.custom.53451.js')}}"></script>
+    <script type="text/javascript" src="{{url('frontend/'.$configuracoes->template.'/assets/js/slide_border/jquery.gallery.js')}}"></script> 
+    <!-- book a table-->
+    <script type="text/javascript" src="{{url('frontend/'.$configuracoes->template.'/assets/js/book_a_table/book_a_table.js')}}"></script>
 
+    <script src="{{url('frontend/'.$configuracoes->template.'/assets/js/jquery-func.js')}}"></script>
+    
+    <script type="text/javascript">
+        $('#slide').camera({        
+            height: '37%'
+        });
+    </script>
+    
     <script>
         $(function () {    
             $.ajaxSetup({

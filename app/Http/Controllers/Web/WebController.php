@@ -7,18 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use App\Models\{
-    Agenda,
-    Arquivo,
     Post,
     CatPost,
     Cidades,
-    Discografia,
     Galeria,
     Newsletter,
-    Parceiro,
     Slide,
-    User,
-    Video
+    User
 };
 
 use App\Services\ConfigService;
@@ -48,19 +43,11 @@ class WebController extends Controller
 
     public function home()
     {
-        $videos = Video::orderBy('created_at', 'DESC')
-                    ->available()
-                    ->limit(12)
-                    ->get();
         $slides = Slide::orderBy('created_at', 'DESC')
                     ->available()
                     ->where('expira', '>=', Carbon::now())
                     ->get();   
         $galerias = Galeria::orderBy('created_at', 'DESC')->available()->limit(12)->get();
-        $parceiros = Parceiro::orderBy('created_at', 'DESC')->available()->limit(4)->get();
-        $eventos = Agenda::orderBy('data', 'DESC')->available()->limit(10)->get();
-        $discografia = Discografia::orderBy('created_at', 'DESC')->available()->limit(6)->get();
-        $arquivos = Arquivo::orderBy('created_at', 'DESC')->available()->limit(8)->get();
         
         $head = $this->seo->render($this->configService->getConfig()->nomedosite ?? 'Informática Livre',
             $this->configService->getConfig()->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
@@ -71,12 +58,7 @@ class WebController extends Controller
 		return view('web.'.$this->configService->getConfig()->template.'.home',[
             'head' => $head,            
             'slides' => $slides,
-            'videos' => $videos,
-            'galerias' => $galerias,
-            'parceiros' => $parceiros,
-            'eventos' => $eventos,
-            'discografia' => $discografia,
-            'arquivos' => $arquivos
+            'galerias' => $galerias
 		]);
     }
 

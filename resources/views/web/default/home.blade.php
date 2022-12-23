@@ -3,387 +3,198 @@
 @section('content')
 
 <section id="inicio">
-    <div class="tp-fullscreen-container revolution">
+    <div class="container main_content">
+    
+        <!-- Header -->
+       <div class="row-fluid">            
+            <div class="info_place">
+                <div class="span4">
+                    <ul class="social">
+                        @if ($configuracoes->facebook)
+                            <li><a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/facebook.png')}}" alt="Facebook" /></a>
+                        @endif
+                        @if ($configuracoes->twitter)
+                            <li><a target="_blank" href="{{$configuracoes->twitter}}" title="Twitter"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/twitter.png')}}" alt="Twitter" /></a>
+                        @endif
+                        @if ($configuracoes->instagram)
+                            <li><a target="_blank" href="{{$configuracoes->instagram}}" title="Instagram"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/instagram.png')}}" alt="Instagram" /></a>
+                        @endif
+                        @if ($configuracoes->linkedin)
+                            <li><a target="_blank" href="{{$configuracoes->linkedin}}" title="linkedin"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/linkedin.png')}}" alt="linkedin" /></a>
+                        @endif
+                        @if ($configuracoes->youtube)
+                            <li><a target="_blank" href="{{$configuracoes->youtube}}" title="Youtube"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/youtube.png')}}" alt="Youtube" /></a>
+                        @endif
+                    </ul>
+                </div>
+                <div class="span4 logo">
+                    <a href="{{route('web.home')}}">
+                        <img src="{{$configuracoes->getLogomarca()}}" alt="{{$configuracoes->nomedosite}}"/>
+                    </a>                    
+                </div>
+                <div class="span4">                    
+                    @if($configuracoes->telefone1)
+                        <div class="phone">
+                            <p>Atendimento: <span class="color">{{$configuracoes->telefone1}}</span></p>
+                            @if($configuracoes->rua)
+                                <p style="font-size:14px;">
+                                    {{$configuracoes->rua}}
+                                    @if($configuracoes->num)
+                                        , {{$configuracoes->num}}
+                                    @endif
+                                    @if($configuracoes->complemento)
+                                        <br /> {{$configuracoes->complemento}}
+                                    @endif
+                                    @if($configuracoes->bairro)
+                                        , {{$configuracoes->bairro}}
+                                    @endif
+                                    @if($configuracoes->cidade)  
+                                        - {{\App\Helpers\Cidade::getCidadeNome($configuracoes->cidade, 'cidades')}}
+                                    @endif
+                                </p>                            
+                            @endif                            
+                        </div> 
+                    @endif                    
+                </div>
+            </div>       
+       </div>
+       <!-- Header -->
+       
         @if (!empty($slides) && $slides->count() > 0)
-            <div class="tp-fullscreen">
-                <ul>
-                    @foreach ($slides as $key => $slide)                        
-                        @if ($slide->link != null)
-                            <li data-transition="fade" data-link="{{$slide->link}}" {{($slide->target == 1 ? 'target="_blank"' : '')}}>                    
-                                <img src="{{$slide->getimagem()}}"  alt="{{$slide->titulo}}" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" />                            
-                            </li>                                
-                        @else 
-                            <li data-transition="fade"> 
-                                <img src="{{$slide->getimagem()}}"  alt="{{$slide->titulo}}" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" />
-                            </li>                  
-                        @endif                
-                    @endforeach 
-                </ul>
-            </div>
-        @endif 
-    </div>  
+            <div class="row-fluid">
+                <div class="row-fluid">
+                    <div class="camera_wrap" id="slide">
+                        @foreach ($slides as $key => $slide)  
+                            <div  data-src="{{$slide->getimagem()}}"></div>                            
+                        @endforeach 
+                    </div> 
+                </div> 
+            </div>          
+        @endif
+    </div>
+
+    <div class="row-fluid comfundo">
+        <div class="container main_content" style="padding-bottom: 50px;padding-top: 20px;">
+            <!-- PORÇÕES E DRINKS -->
+            <?php
+            // $readPorcoesRand = read('cardapio',"WHERE exibir = '1' AND id_pai IS NOT NULL ORDER BY RAND() LIMIT 6");
+            // foreach($readPorcoesRand as $porcoesRand);
+            // if($porcoesRand){
+            //     echo '<div class="row-fluid">';
+            //     echo '<div class="more_info">';
+            //     echo '<div class="span12">';
+            //     echo '<h2>Porções e Drinks</h2>';
+            //     echo '<div class="row-fluid img_decoration">';
+            //     foreach($readPorcoesRand as $porcoesRands):
+            //     if($porcoesRands['img'] == ''){
+            //     echo '<div class="span2"><a href="'.BASE.'/pagina/cardapio/'.getCardapio($porcoesRands['id_pai'], 'url').'"><img src="'.BASE.'/tim.php?src='.PATCH.'/images/image.jpg&w=770&h=511&q=100&zc=1" alt="'.$porcoesRands['nome'].'" /></a></div>';
+            //     }else{
+            //     echo '<div class="span2"><a href="'.BASE.'/pagina/cardapio/'.getCardapio($porcoesRands['id_pai'], 'url').'"><img src="'.BASE.'/tim.php?src='.BASE.'/uploads/cardapio/'.$porcoesRands['img'].'&w=770&h=511&q=100&zc=1" alt="'.$porcoesRands['nome'].'"/></a></div>';
+            //     }
+            //     endforeach;
+            //     echo '</div>';
+            //     echo '<div class="clearfix"></div>';
+            //     echo '</div>';
+            //     echo '</div>';
+            //     echo '</div>';
+                
+            //     echo '<!-- divisor -->';
+            //     echo '<div class="divisor">';
+            //     echo '<div class="circle_left"></div>';
+            //     echo '<div class="circle_right"></div>';
+            //     echo '</div>';
+            //     echo '<!-- divisor -->';
+            // }else{
+            //     echo '';
+            // }	
+            ?>
+                
+            
+            <!-- BUSCA OS IMÓVEIS NO ALUGUÉIS UBATUBA -->  
+            <?php
+            // $readImoveis = read2('imoveis',"WHERE status = '1' ORDER BY RAND() LIMIT 3");
+            // foreach($readImoveis as $imovel);
+            // if($imovel){
+            //     echo '<div class="title">';
+            //     echo '<h2>Locação Para Temporada</h2>';
+            //     echo '</div>';
+                
+            //     echo '<div class="row-fluid">';
+            //     echo '<div class="banner" style="margin-top: 0px;">';
+            //     foreach($readImoveis as $imoveis):
+            //         echo '<div class="span4">';
+            //         echo '<div class="image_hover">';
+            //         echo '<a target="_blank" href="https://alugueisubatuba.com.br/pagina/imovel/'.$imoveis['url'].'">';
+            //         if($imovel['img'] == ''){
+            //         echo '<img src="'.PATCH.'/images/image.jpg&w=370&h=260&q=100&zc=1" alt="'.$imoveis['nome'].'" />';
+            //         }else{
+            //         echo '<img src="https://alugueisubatuba.com.br/tim.php?src=https://alugueisubatuba.com.br/uploads/imoveis/'.$imoveis['img'].'&w=370&h=260&q=100&zc=1" alt="'.$imoveis['nome'].'" />';
+            //         }
+            //         echo '</a>';
+            //         echo '<div class="info_hover">';
+            //         echo '<div class="text_hover">';
+            //         echo '<h3>'.$imoveis['nome'].'</h3>';
+            //         echo '<p>bulum molestie lacunean nonumm ... </p>';
+            //         echo '<a target="_blank" href="https://alugueisubatuba.com.br/pagina/imovel/'.$imoveis['url'].'" class="button">+ detalhes</a>';
+            //         echo '</div>';
+            //         echo '</div>';
+            //         echo '</div>';
+            //         echo '</div>';
+            //     endforeach;
+            //     echo '</div>';
+            //     echo '</div>';
+                
+            //     echo '<div class="clearfix"></div>';
+                
+            //     echo '<!-- divisor -->';
+            //     echo '<div class="divisor">';
+            //     echo '<div class="circle_left"></div>';
+            //     echo '<div class="circle_right"></div>';
+            //     echo '</div>';
+            //     echo '<!-- divisor -->';
+            // }else{
+            //     echo '';
+            // }
+            ?>
+            
+        </div>    
+    </div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </section>
 
-@if (!empty($eventos) && $eventos->count() > 0)
-    <section id="agenda" style="padding-top: 70px; margin-top: -70px;"> 
-        <div class="light-wrapper" style="background-image: url({{url('frontend/'.$configuracoes->template.'/assets/images/agendabg.png')}});color:#000;background-repeat:no-repeat;background-size:cover;background-position:center;">
-            <div class="container inner" style="padding-top:50px;">
-                <div class="divide10"></div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="pricing panel" style="background-color: transparent;border:none;">
-                            <div class="panel-body">
-                                <table class="table">
-                                    <tbody>
-                                    @foreach($eventos as $evento)
-                                        <tr>
-                                            <td style="padding:0px;border:none;">
-                                                <p style="margin:15px 0 2px 0;font-size: 20px;text-transform: uppercase;text-align:center;">
-                                                <span style="font-size: 28px;">{{ date('d', strtotime($evento->data)) }}</span><br />
-                                                {{ Carbon\Carbon::parse($evento->data)->formatLocalized('%b') }}</p>
-                                            </td>
-                                            <td style="padding:0px;border:none;">
-                                                <p style="margin:15px 0 2px 0;line-height:24px;text-align:left;font-size: 20px;"><strong>{{$evento->titulo}}</strong><br />
-                                                <span style="font-size:14px;">{{$evento->endereco}}</span></p> 
-                                            </td>
-                                            <td style="padding:0px;border:none;">
-                                                <p style="margin:15px 0 2px 0;">
-                                                    <a target="_blank" href="{{$evento->link ?? '#'}}" class="btn btn btn-red j_info">+ INFO</a>
-                                                </p>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-@endif
-
-@if (!empty($discografia) && $discografia->count() > 0)
-    <section id="discografia"> 
-        <div class="light-wrapper" style="background-image: url({{url('frontend/'.$configuracoes->template.'/assets/images/discografiabg.png')}});color:#000;background-repeat:no-repeat;background-size:cover;background-position:center;padding-top: 100px;padding-bottom: 50px;">
-            <div class="container inner" >
-                <div class="divide10"></div> 
-                <div class="row" >  
-                    @foreach($discografia as $disco)  
-                        <div class="col-sm-4" style="padding-top:26px;">                      
-                            <div style="text-align:center !important;margin-left:35px !important;">                      
-                                <div class="col-sm-2 col-xs-2" style="padding:0 9px 10px 5px;text-align:center;">
-                                    @if($disco->deezer)
-                                        <a style="padding:10px" title="Deezer" href="{{$disco->deezer}}" target="_blank">
-                                            <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/deezer.png')}}" alt="{{url('frontend/'.$configuracoes->template.'/assets/images/deezer.png')}}" />
-                                        </a>
-                                    @endif
-                                </div>                      
-                                <div class="col-sm-2 col-xs-2" style="padding:0 9px 10px 5px;text-align:center;">
-                                    @if($disco->music)
-                                        <a style="padding:10px" title="Music" href="{{$disco->music}}" target="_blank">
-                                            <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/music.png')}}" alt="{{url('frontend/'.$configuracoes->template.'/assets/images/music.png')}}" />
-                                        </a>
-                                    @endif
-                                </div>                      
-                                <div class="col-sm-2 col-xs-2" style="padding:0 9px 10px 5px;text-align:center;">
-                                    @if($disco->spotify)
-                                        <a style="padding:10px" title="Spotify" href="{{$disco->spotify}}" target="_blank">
-                                            <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/spotify.png')}}" alt="{{url('frontend/'.$configuracoes->template.'/assets/images/spotify.png')}}" />
-                                        </a>
-                                    @endif
-                                </div>                      
-                                <div class="col-sm-2 col-xs-2" style="padding:0 9px 10px 5px;text-align:center;">
-                                    @if($disco->itunes)
-                                        <a style="padding:10px" title="Itunes" href="{{$disco->itunes}}" target="_blank">
-                                            <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/itunes.png')}}" alt="{{url('frontend/'.$configuracoes->template.'/assets/images/itunes.png')}}" />
-                                        </a>
-                                    @endif
-                                </div>                      
-                                <div class="col-sm-2 col-xs-2" style="padding:0 9px 10px 5px;text-align:center;">
-                                    @if($disco->apple_music)
-                                        <a style="padding:10px" title="Apple Music" href="{{$disco->apple_music}}" target="_blank">
-                                            <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/applemusic.png')}}" alt="{{url('frontend/'.$configuracoes->template.'/assets/images/applemusic.png')}}" />
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>                      
-                      
-                            <a class="fancybox-media" data-rel="4{{$disco->id}}" href="{{$disco->cover()}}" rel="4{{$disco->id}}">
-                                <img src="{{$disco->cover()}}" alt="{{$disco->titulo}}">
-                            </a>
-                      
-                            <p class="discografiap">
-                                @if($disco->ficha_tecnica)
-                                        <a class="fancybox-media" data-rel="2{{$disco->id}}" href="#2{{$disco->id}}" rel="2{{$disco->id}}">
-                                            <span>Ficha Técnica</span>
-                                        </a>
-                                @endif
-                                @if($disco->letras)
-                                    <a class="fancybox-media" data-rel="3{{$disco->id}}" href="#3{{$disco->id}}" rel="3{{$disco->id}}">
-                                        <span>Letras</span>
-                                    </a>
-                                @endif
-                                @if($disco->link)
-                                    <a target="_blank" href="{{$disco->link}}">
-                                        <span>Ouça o CD</span>
-                                    </a>
-                                @endif                    
-                            </p>
-                        </div>
-  
-                        <div class="col-sm-12" id="2{{$disco->id}}" style="display:none;">{!!$disco->ficha_tecnica!!}</div>
-                        <div class="col-sm-12" id="3{{$disco->id}}" style="display:none;">{{$disco->letras}}</div>
-                        <img style="display:none;" src="{{$disco->cover()}}" alt="{{$disco->titulo}}">
-                    @endforeach
-                </div>
-            </div>  
-        </div>  
-    </section>    
-@endif
-
-@if (!empty($videos) && $videos->count() > 0)
-    <section id="videos">
-        <div class="light-wrapper">
-            <div class="container inner">
-                <div class="divide10"></div>            
-                <div class="row">                          
-                    @foreach($videos as $key => $video)                                
-                        <div class="col-sm-3" style="padding-top:20px;">
-                            <div class="caption-overlay"> 
-                                <figure>
-                                    <a class="cbp-caption fancybox-media" data-rel="1{{$video->id}}" href="#1{{$video->id}}" rel="1{{$video->id}}">
-                                        <img src="{{\App\Helpers\Renato::imagemYouTube($video->url)}}" alt="{{$video->titulo}}">
-                                    </a>
-                                </figure>
-                                <div class="caption bottom-right" style="bottom: 43%;">
-                                    <div class="title" style="width:100%;text-align:center;">
-                                        <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/youtube-btn.png')}}" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                                
-                        <div class="col-sm-12" id="1{{$video->id}}" style="display:none;"> 
-                            <iframe src="{{$video->embed}}" frameborder="0" allowfullscreen height="360" width="460"></iframe>            
-                        </div>
-                    @endforeach    
-                    <div class="divide10"></div>   
-                    @if ($configuracoes->youtube)
-                        <div class="col-sm-12" id="link-inscrevase" style="padding-top:20px;text-align: center;">            
-                            <h3><a href="{{$configuracoes->youtube}}" target="_blank">INSCREVA-SE EM NOSSO CANAL</a> &nbsp;&nbsp;<img src="{{url('frontend/'.$configuracoes->template.'/assets/images/youtube-btn1.png')}}" /></h3>            
-                        </div>
-                    @endif 
-                </div>
-            </div>
-        </div>    
-    </section>
-@endif   
-
-@if (!empty($galerias) && $galerias->count() > 0)
-    <section id="fotos"> 
-        <div class="light-wrapper">  
-            <div class="container inner">
-                <div class="divide10"></div>
-                <div class="row">
-                    @php $count = 0; @endphp
-                    @foreach ($galerias as $key => $item)                
-                        @if($count == 4)
-                            </div><div class="divide10"></div><div class="row">
-                        @endif
-
-                        <div class="col-sm-3" style="min-height:300px;">
-                            <div class="caption-overlay">
-                                <figure style="margin-bottom:10px;">
-                                    <a class="fancybox-media" data-rel="{{$key}}" href="{{$item->cover()}}" rel="{{$key}}">
-                                        <img style="height:179px !important;" width="270" src="{{$item->cover()}}" alt="{{$item->titulo}}"> 
-                                    </a>
-                                </figure>
-                                <p style="text-align:center;">
-                                    <span style="text-transform: uppercase;"><strong>{{$item->titulo}}</strong></span><br />
-                                    {!!$item->content!!}
-                                </p>
-                            </div>
-                        </div>
-                        @if ($item->images()->get()->count())
-                            @foreach($item->images()->get() as $imagem)
-                                <a class="cbp-caption fancybox-media" data-rel="{{$key}}" href="{{ $imagem->url_image }}" rel="{{$key}}">
-                                    <img style="display:none;" src="{{ $imagem->url_image }}">
-                                </a>
-                            @endforeach  
-                        @endif 
-                        @php $count++; @endphp
-                    @endforeach
-                </div>             
-            </div>  
-        </div>  
-    </section>
-@endif
-
-@if (!empty($arquivos) && $arquivos->count() > 0)
-    <section id="contratante" style="padding-top: 70px; margin-top: -70px;"> 
-        <div class="light-wrapper" style="background-image: url({{url('frontend/'.$configuracoes->template.'/assets/images/contratante-bg.png')}});color:#000;background-repeat:no-repeat;background-size: cover;background-position:center;">
-            <div class="container inner"> 
-                <div class="divide10"></div>    
-                <div class="row">
-                    <div class="col-sm-12" style="text-align: center;">
-                        <h1 style="text-shadow: 1px 1px 1px #000;color: #ddd;">ÁREA DO CONTRATANTE</h1>
-                    </div>    
-                    <div class="divide10"></div>
-                    @foreach($arquivos as $arquivo)
-                        <div class="col-sm-3" style="padding-top:20px;">
-                            <a href="{{ \Illuminate\Support\Facades\Storage::url($arquivo->arquivo) }}">
-                                <img src="{{$arquivo->cover()}}" alt="{{$arquivo->titulo}}">
-                            </a>
-                        </div>
-                    @endforeach
-                </div>  
-            </div>
-        </div>    
-    </section>   
-@endif
-
-<section id="contato">
-    <div class="light-wrapper" style="background-image: url({{url('frontend/'.$configuracoes->template.'/assets/images/contact-bg.jpg')}});color:#000;background-repeat:no-repeat;background-size: cover;background-position:center;">  
-        <div class="container inner">   
-            <div class="divide10"></div>  
-            <div class="row">
-                <div class="col-sm-12" style="margin-bottom: 50px;"> 
-                    
-                </div>   
-            </div>
-  
-            <div class="divide10"></div>
-  
-            <div class="row">
-                <div class="col-sm-4">
-                    @if ($configuracoes->facebook)
-                        <div class="fb-page" data-href="{{$configuracoes->facebook}}" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
-                            <blockquote cite="{{$configuracoes->facebook}}" class="fb-xfbml-parse-ignore">
-                                <a href="{{$configuracoes->facebook}}">Engrennagem</a>
-                            </blockquote>
-                        </div>
-                    @endif                    
-                </div>    
-                <div class="col-sm-4">
-                    @if ($configuracoes->twitter)
-                        <a class="twitter-timeline" href="{{$configuracoes->twitter}}" height="359">Tweets by Engrennagem</a>
-                        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-                    @endif                    
-                </div>    
-                <div class="col-sm-4">    
-                
-                </div>
-            </div>
-  
-            <div class="divide10"></div>
-  
-            <div class="row">
-                <div class="col-sm-8" id="fundo-youtube">
-                    <script src="https://apis.google.com/js/platform.js"></script>
-                    <div class="g-ytsubscribe" data-channelid="UCB_RfNRIJNnrzwsbfJXvG4w" data-layout="full" data-theme="dark" data-count="default"></div>
-                </div>    
-                <div class="col-sm-4">
-                    <iframe width="100%" height="110" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/users/38680885&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>
-                </div>
-            </div>  
-
-            @if (!empty($parceiros) && $parceiros->count() > 0)
-                <div class="divide10"></div>
-                <div class="row">
-                    <div class="col-sm-12" style="margin-top: 30px;">
-                        <h2 style="text-align:center">Parceiros</h2>            
-                    </div>
-                </div>
-                <div class="divide10"></div>
-                <div class="row">
-                    @foreach($parceiros as $parceiro)
-                        <div class="col-sm-2">
-                            <div class="caption-overlay">
-                                <figure style="margin-bottom:10px;">
-                                    @if($parceiro->link == '')
-                                        <a class="fancybox-media" href="#"> 
-                                    @else
-                                        <a class="fancybox-media" target="_blank" href="{{$parceiro->link}}"> 
-                                    @endif
-                                    <img src="{{$parceiro->cover()}}" alt="{{$parceiro->name}}">                                  
-                                    </a>
-                                </figure>                         
-                            </div>
-                        </div>           
-                    @endforeach
-                </div>
-            @endif         
-        </div>
-    </div>  
-</section> 
-
-
-<div class="dialog">
-    <div class="loadsistem">        
-        <header class="dialog-topo">
-            <h3><strong>&nbsp;</strong></h3>
-            <p>&nbsp;</p>
-        </header>
-        <fieldset>
-            <section>            
-                <div class="row">
-                    <div class="col-sm-12 formmodal">
-                        <form class="j_formsubmit" method="post" action="" autocomplete="off">
-                            @csrf
-                            <div class="row  wow fadeInUp animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: visible; animation-duration: 1000ms; animation-delay: 300ms; animation-name: fadeInUp;">
-                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 5px;">
-                                    <div id="js-contact-result"></div>
-                                    <!-- HONEYPOT -->
-                                    <input type="hidden" class="noclear" name="bairro" value="" />
-                                    <input type="text" class="noclear" style="display: none;" name="cidade" value="" />
-                                </div>
-                
-                                <div class="form_hide">
-                                    <div class="col-md-4 col-sm-12 col-xs-12 col-lg-4">
-                                        <div class="form-group">
-                                            <label>Nome</label>
-                                            <input type="text" name="nome" class="form-control"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-12 col-xs-12 col-lg-4">
-                                        <div class="form-group">
-                                            <label>E-mail</label>
-                                            <input type="email" name="email" class="form-control"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-12 col-xs-12 col-lg-4">
-                                        <div class="form-group">
-                                            <label>WhatsApp</label>
-                                            <input type="text" name="numero"  class="form-control whatsapp"/>
-                                        </div>
-                                    </div> 
-                                </div>
-                
-                                <div class="clearfix"></div>
-                                <div class="col-md-6 col-sm-6 col-xs-6 hiddemmodal">
-                                    &nbsp;
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <div class="form-group modalfooter">
-                                        <button type="button" class="modal-btn btnfechar">Fechar &nbsp;<strong></strong></button>
-                                    </div>
-                                </div>
-                                <div class="form_hide">
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <div class="form-group modalfooter">
-                                        <button type="submit" style="width: 100%;" class="modal-btn btnsuccess btncheckout">Cadastrar<strong> :)</strong></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>   
-                    </div>            
-                </div>	
-			</section>
-        </fieldset>
-    </div>
-</div> 
 @endsection
 
 @section('css')
@@ -401,13 +212,6 @@
 
     $(function () {
 
-        // $(".j_info").click(function(){
-        //     $.post("{{ route('web.addCountAgenda') }}", {val:'1'}).done(function(response){
-        //         alert("success");
-        //         console.log(response.success);
-        //     });
-        // });
-
         $('.modalcadastro').click(function (){
             $('.dialog').css('display','block');
         });
@@ -415,45 +219,6 @@
         $('.btnfechar').click(function (){
             $('.dialog').modal().hide();
         });
-
-        // Seletor, Evento/efeitos, CallBack, Ação
-        $('.j_formsubmit').submit(function (){
-            var form = $(this);
-            var dataString = $(form).serialize();
-
-            $.ajax({
-                url: "{{ route('web.sendWhatsapp') }}",
-                data: dataString,
-                type: 'GET',
-                dataType: 'JSON',
-                beforeSend: function(){
-                    form.find(".btncheckout").attr("disabled", true);
-                    form.find('.btncheckout').html("Carregando...");                
-                    form.find('.alert').fadeOut(500, function(){
-                        $(this).remove();
-                    });
-                },
-                success: function(resposta){
-                    $('html, body').animate({scrollTop:$('#js-contact-result').offset().top-100}, 'slow');
-                    if(resposta.error){
-                        form.find('#js-contact-result').html('<div class="alert alert-danger error-msg">'+ resposta.error +'</div>');
-                        form.find('.error-msg').fadeIn();                    
-                    }else{
-                        form.find('#js-contact-result').html('<div class="alert alert-success error-msg">'+ resposta.sucess +'</div>');
-                        form.find('.error-msg').fadeIn();                    
-                        form.find('input[class!="noclear"]').val('');
-                        form.find('textarea[class!="noclear"]').val('');
-                        form.find('.form_hide').fadeOut(500);
-                    }
-                },
-                complete: function(resposta){
-                    form.find(".btncheckout").attr("disabled", false);
-                    form.find('.btncheckout').html("Cadastrar Agora &nbsp;<strong>:)</strong>");                                
-                }
-            });
-            return false;
-        });
-
     });
    
 </script>
