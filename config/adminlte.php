@@ -243,20 +243,6 @@ return [
             'icon' => 'fas fa-cog',
         ],
         [
-            'text' => 'Arquivos',            
-            'icon' => 'fas fa-fw fa-folder',
-            'submenu' => [
-                [
-                    'text' => 'Listar Arquivos',
-                    'url'  => 'admin/arquivos',
-                ],
-                [
-                    'text' => 'Criar Novo',
-                    'url'  => 'admin/arquivos/create',
-                ]
-            ]
-        ],
-        [
             'text' => 'Usuários',            
             'icon' => 'fas fa-fw fa-users',
             'submenu' => [
@@ -285,44 +271,6 @@ return [
             'icon' => 'fas fa-images',
         ],
         [
-            'text' => 'Agenda',            
-            'icon' => 'fas fa-fw fa-newspaper',
-            'submenu' => [
-                [
-                    'text' => 'Listar Eventos',
-                    'url'  => 'admin/agenda',
-                ],
-                [
-                    'text' => 'Criar Novo',
-                    'url'  => 'admin/agenda/create',
-                ]
-            ]
-        ],
-        [
-            'text' => 'Discografia',            
-            'icon' => 'fas fa-fw fa-music',
-            'submenu' => [
-                [
-                    'text' => 'Listar Discos',
-                    'url'  => 'admin/discografia',
-                ],
-                [
-                    'text' => 'Criar Novo',
-                    'url'  => 'admin/discografia/create',
-                ]
-            ]
-        ],
-        [
-            'text' => 'Vídeos',
-            'url'  => 'admin/videos',
-            'icon' => 'fas fa-video',
-        ],
-        [
-            'text' => 'Parceiros',
-            'url'  => 'admin/parceiros',
-            'icon' => 'fas fa-puzzle-piece',
-        ],
-        [
             'text' => 'Email',            
             'icon' => 'fas fa-fw fa-envelope',
             'submenu' => [
@@ -341,24 +289,6 @@ return [
                 [
                     'text' => 'Cadastrar Email',
                     'url'  => 'admin/listas/email/cadastrar',
-                ],
-            ]
-        ],      
-        [
-            'text' => 'WhatsApp',            
-            'icon' => 'fab fa-fw fa-whatsapp',
-            'submenu' => [
-                [
-                    'text' => 'Listas',
-                    'url'  => 'admin/whatsapp/listas',
-                ],
-                [
-                    'text' => 'Cadastrar Lista',
-                    'url'  => 'admin/whatsapp/listas/cadastrar',
-                ],
-                [
-                    'text' => 'Cadastrar Email',
-                    'url'  => 'admin/whatsapp/numero/cadastrar',
                 ],
             ]
         ], 
