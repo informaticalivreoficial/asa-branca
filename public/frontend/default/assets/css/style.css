@@ -933,10 +933,7 @@ footer form .button:hover{
 	.contact_form .buttons{
 		margin-left: 0%;
 	}
-	form input[type="email"] {
-		width: 79%;
-		margin-left: 9%;
-	}	
+		
 	.info_hover{
 		width: 82.5%;
 		margin-left: 9%;

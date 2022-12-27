@@ -40,6 +40,9 @@ class AppServiceProvider extends ServiceProvider
 
         $configuracoes = \App\Models\Configuracoes::find(1); 
         View()->share('configuracoes', $configuracoes);
+
+        $Cardapio = \App\Models\Cardapio::orderBy('created_at', 'DESC')->inRandomOrder()->available()->limit(6)->get(); 
+        View()->share('Cardapio', $Cardapio);
         
         Paginator::useBootstrap();
     }

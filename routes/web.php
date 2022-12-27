@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
     AdminController,
+    CardapioController,
     UserController,
     EmailController,
     PostController,
@@ -35,6 +36,9 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
     //*************************************** Galerias *******************************************/
     Route::get('/galeria/{slug}', [WebController::class, 'galeria'])->name('galeria');
     Route::get('/galerias', [WebController::class, 'galerias'])->name('galerias');
+
+    //*************************************** Cardápio *******************************************/
+    Route::get('/cardapio/{categoria}', [WebController::class, 'cardapio'])->name('cardapio');
 
     /** FEED */
     Route::get('feed', [RssFeedController::class, 'feed'])->name('feed');
@@ -123,6 +127,16 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     Route::post('usuarios/store', [UserController::class, 'store'])->name('users.store');
     Route::get('usuarios', [UserController::class, 'index'])->name('users.index');
 
+    //****************************** Menu *******************************************/
+    Route::get('menus/set-status', [MenuController::class, 'menuSetStatus'])->name('menus.menuSetStatus');
+    Route::delete('menus/deleteon', [MenuController::class, 'deleteon'])->name('menus.deleteon');
+    Route::get('menus/delete', [MenuController::class, 'delete'])->name('menus.delete');
+    Route::put('menus/{id}', [MenuController::class, 'update'])->name('menus.update');
+    Route::get('menus/{id}/edit', [MenuController::class, 'edit'])->name('menus.edit');
+    Route::get('menus/create', [MenuController::class, 'create'])->name('menus.create');
+    Route::post('menus/store', [MenuController::class, 'store'])->name('menus.store');
+    Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
+
     //****************************** Galerias *******************************************/
     Route::get('galerias/set-status', [GaleriaController::class, 'galeriaSetStatus'])->name('galerias.galeriaSetStatus');
     Route::delete('galerias/deleteon', [GaleriaController::class, 'deleteon'])->name('galerias.deleteon');
@@ -134,6 +148,19 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     Route::get('galerias/create', [GaleriaController::class, 'create'])->name('galerias.create');
     Route::post('galerias/store', [GaleriaController::class, 'store'])->name('galerias.store');
     Route::get('/galerias', [GaleriaController::class, 'index'])->name('galerias.index');
+    
+    //****************************** Cardápio *******************************************/
+    Route::post('cardapio/categoriaList', [CardapioController::class, 'categoriaList'])->name('cardapio.categoriaList');
+    Route::get('cardapio/set-status', [CardapioController::class, 'setStatus'])->name('cardapio.setStatus');
+    Route::delete('cardapio/deleteon', [CardapioController::class, 'deleteon'])->name('cardapio.deleteon');
+    Route::post('cardapio/image-set-cover', [CardapioController::class, 'imageSetCover'])->name('cardapio.imageSetCover');
+    Route::delete('cardapio/image-remove', [CardapioController::class, 'imageRemove'])->name('cardapio.imageRemove');
+    Route::get('cardapio/delete', [CardapioController::class, 'delete'])->name('cardapio.delete');
+    Route::put('cardapio/{id}', [CardapioController::class, 'update'])->name('cardapio.update');
+    Route::get('cardapio/{id}/edit', [CardapioController::class, 'edit'])->name('cardapio.edit');
+    Route::get('cardapio/create', [CardapioController::class, 'create'])->name('cardapio.create');
+    Route::post('cardapio/store', [CardapioController::class, 'store'])->name('cardapio.store');
+    Route::get('/cardapio', [CardapioController::class, 'index'])->name('cardapio.index');
     
     //******************** Sitemap *********************************************/
     Route::get('gerarxml', [SitemapController::class, 'gerarxml'])->name('gerarxml');

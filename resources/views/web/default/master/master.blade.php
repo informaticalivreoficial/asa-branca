@@ -27,6 +27,7 @@
     <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/bootstrap/bootstrap-responsive.css')}}" rel="stylesheet" media="screen"/>
     <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/slide/camera.css')}}" rel="stylesheet" media="screen"/>
     <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/slide_rotation/style.css')}}" rel="stylesheet" media="all" />      
+    <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/renato.css')}}" rel="stylesheet" media="all" />
     <link href="{{url('frontend/'.$configuracoes->template.'/assets/css/style.css')}}" rel="stylesheet" media="all" />
     <link href="{{url('frontend/'.$configuracoes->template.'/assets/js/fancybox/jquery.fancybox.css')}}" rel="stylesheet" media="all" />
     
@@ -54,7 +55,7 @@
           <div class="row-fluid" style="text-align: center;">         
                 <ul id="menu" class="sf-menu">
                     <li><a href="{{route('web.home')}}">Início</a></li>
-                    @if (!empty($Links) && $Links->count())                            
+                    @if (!empty($Links) && $Links->count()  > 0)                            
                         @foreach($Links as $menuItem)                            
                         <li>
                             <a {{($menuItem->target == 1 ? 'target=_blank' : '')}} href="{{($menuItem->tipo == 'Página' ? route('web.pagina', [ 'slug' => ($menuItem->post != null ? $menuItem->PostObject->slug : '#') ]) : $menuItem->url)}}">{{ $menuItem->titulo }}</a>
@@ -67,26 +68,70 @@
                             @endif
                         </li>
                         @endforeach
-                    @endif
-                    <?php
-                        // $readCardapioMenu = read('cardapio',"WHERE exibir = '1' AND id_pai IS NULL");
-                        // foreach($readCardapioMenu as $cardapioMenu);
-                        // if($cardapioMenu){
-                        //     echo '<li><a href="#">Cardápio</a>';
-                        //     echo '<ul>';
-                        //     foreach($readCardapioMenu as $cardapioMenus):
-                        //         echo '<li><a href="'.BASE.'/pagina/cardapio/'.$cardapioMenus['url'].'">'.$cardapioMenus['nome'].'</a></li>';
-                        //     endforeach;
-                        //     echo '</ul>';
-                        //     echo '</li>';
-                        // }
-                    ?>
-              <li><a href="{{route('web.galerias')}}" title="Galerias">Fotos</a></li>
-              <li><a href="{{route('web.atendimento')}}" title="Atendimento">Atendimento</a></li>
-            </ul>
+                    @endif                    
+                    <li><a href="{{route('web.galerias')}}" title="Galerias">Fotos</a></li>
+                    <li><a href="{{route('web.atendimento')}}" title="Atendimento">Atendimento</a></li>
+                </ul>
           </div>
         </div>
-    </nav>
+    </nav>   
+    
+    <div class="container main_content">    
+        <!-- Header -->
+       <div class="row-fluid">            
+            <div class="info_place">
+                <div class="span4">
+                    <ul class="social">
+                        @if ($configuracoes->facebook)
+                            <li><a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/facebook.png')}}" alt="Facebook" /></a>
+                        @endif
+                        @if ($configuracoes->twitter)
+                            <li><a target="_blank" href="{{$configuracoes->twitter}}" title="Twitter"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/twitter.png')}}" alt="Twitter" /></a>
+                        @endif
+                        @if ($configuracoes->instagram)
+                            <li><a target="_blank" href="{{$configuracoes->instagram}}" title="Instagram"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/instagram.png')}}" alt="Instagram" /></a>
+                        @endif
+                        @if ($configuracoes->linkedin)
+                            <li><a target="_blank" href="{{$configuracoes->linkedin}}" title="linkedin"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/linkedin.png')}}" alt="linkedin" /></a>
+                        @endif
+                        @if ($configuracoes->youtube)
+                            <li><a target="_blank" href="{{$configuracoes->youtube}}" title="Youtube"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/youtube.png')}}" alt="Youtube" /></a>
+                        @endif
+                    </ul>
+                </div>
+                <div class="span4 logo">
+                    <a href="{{route('web.home')}}">
+                        <img src="{{$configuracoes->getLogomarca()}}" alt="{{$configuracoes->nomedosite}}"/>
+                    </a>                    
+                </div>
+                <div class="span4">                    
+                    @if($configuracoes->telefone1)
+                        <div class="phone">
+                            <p>Atendimento: <span class="color">{{$configuracoes->telefone1}}</span></p>
+                            @if($configuracoes->rua)
+                                <p style="font-size:14px;">
+                                    {{$configuracoes->rua}}
+                                    @if($configuracoes->num)
+                                        , {{$configuracoes->num}}
+                                    @endif
+                                    @if($configuracoes->complemento)
+                                        <br /> {{$configuracoes->complemento}}
+                                    @endif
+                                    @if($configuracoes->bairro)
+                                        , {{$configuracoes->bairro}}
+                                    @endif
+                                    @if($configuracoes->cidade)  
+                                        - {{\App\Helpers\Cidade::getCidadeNome($configuracoes->cidade, 'cidades')}}
+                                    @endif
+                                </p>                            
+                            @endif                            
+                        </div> 
+                    @endif                    
+                </div>
+            </div>       
+       </div>
+       <!-- Header -->
+    </div>
 
     <!-- INÍCIO DO CONTEÚDO DO SITE -->
     @yield('content')
@@ -96,69 +141,67 @@
         <div class="container">
             <div class="row-fluid"> 
                 <div class="span5">
-                <h2>{{$configuracoes->nomedosite}}</h2>
-                @if($configuracoes->rua)
-                    <p style="font-size:14px;">
-                        {{$configuracoes->rua}}
-                        @if($configuracoes->num)
-                            , {{$configuracoes->num}}
-                        @endif
-                        @if($configuracoes->complemento)
-                            <br /> {{$configuracoes->complemento}}
-                        @endif
-                        @if($configuracoes->bairro)
-                            , {{$configuracoes->bairro}}
-                        @endif
-                        @if($configuracoes->cidade)  
-                            - {{\App\Helpers\Cidade::getCidadeNome($configuracoes->cidade, 'cidades')}}
-                        @endif
-                    </p>                            
-                @endif
-                <p>    
-                    @if($configuracoes->telefone1)
-                        <strong>Telefone:</strong> {{$configuracoes->telefone1}}
+                    <h2>{{$configuracoes->nomedosite}}</h2>
+                    @if($configuracoes->rua)
+                        <p style="font-size:14px;">
+                            {{$configuracoes->rua}}
+                            @if($configuracoes->num)
+                                , {{$configuracoes->num}}
+                            @endif
+                            @if($configuracoes->complemento)
+                                <br /> {{$configuracoes->complemento}}
+                            @endif
+                            @if($configuracoes->bairro)
+                                , {{$configuracoes->bairro}}
+                            @endif
+                            @if($configuracoes->cidade)  
+                                - {{\App\Helpers\Cidade::getCidadeNome($configuracoes->cidade, 'cidades')}}
+                            @endif
+                        </p>                            
+                    @endif
+                    <p>    
+                        @if($configuracoes->telefone1)
+                            <strong>Telefone:</strong> {{$configuracoes->telefone1}}
                             @if($configuracoes->telefone2)
                                 <br /><strong>Telefone:</strong> {{$configuracoes->telefone2}}
                             @endif
                             @if($configuracoes->telefone3)
                                 <br /><strong>Telefone:</strong> {{$configuracoes->telefone3}}
-                            @endif
-                        
+                            @endif                            
+                        @endif
+                    </p>
+                    @if($configuracoes->whatsapp)
+                        <p><img src="{{url('frontend/'.$configuracoes->template.'/assets/images/zapzap.png')}}" alt="WhatsApp" /> {{$configuracoes->whatsapp}}</p>
                     @endif
-                </p>
-                @if($configuracoes->whatsapp)
-                    <p><img src="{{url('frontend/'.$configuracoes->template.'/assets/images/zapzap.png')}}" alt="WhatsApp" /> {{$configuracoes->whatsapp}}</p>
-                @endif
-                @if($configuracoes->email)
-                    <p><strong>E-mail:</strong> <a href="mailto:{{$configuracoes->email}}">{{$configuracoes->email}}</a></span></p>
-                @endif 
-                @if($configuracoes->email1)
-                    <p><strong>E-mail:</strong> <a href="mailto:{{$configuracoes->email1}}">{{$configuracoes->email1}}</a></span></p>
-                @endif 
-                <ul class="social">
-                    @if ($configuracoes->facebook)
-                        <li><a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/facebook.png')}}" alt="Facebook" /></a>
-                    @endif
-                    @if ($configuracoes->twitter)
-                        <li><a target="_blank" href="{{$configuracoes->twitter}}" title="Twitter"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/twitter.png')}}" alt="Twitter" /></a>
-                    @endif
-                    @if ($configuracoes->instagram)
-                        <li><a target="_blank" href="{{$configuracoes->instagram}}" title="Instagram"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/instagram.png')}}" alt="Instagram" /></a>
-                    @endif
-                    @if ($configuracoes->linkedin)
-                        <li><a target="_blank" href="{{$configuracoes->linkedin}}" title="linkedin"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/linkedin.png')}}" alt="linkedin" /></a>
-                    @endif
-                    @if ($configuracoes->youtube)
-                        <li><a target="_blank" href="{{$configuracoes->youtube}}" title="Youtube"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/youtube.png')}}" alt="Youtube" /></a>
-                    @endif
-                </ul>
+                    @if($configuracoes->email)
+                        <p><strong>E-mail:</strong> <a href="mailto:{{$configuracoes->email}}">{{$configuracoes->email}}</a></span></p>
+                    @endif 
+                    @if($configuracoes->email1)
+                        <p><strong>E-mail:</strong> <a href="mailto:{{$configuracoes->email1}}">{{$configuracoes->email1}}</a></span></p>
+                    @endif 
+                    <ul class="social">
+                        @if ($configuracoes->facebook)
+                            <li><a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/facebook.png')}}" alt="Facebook" /></a>
+                        @endif
+                        @if ($configuracoes->twitter)
+                            <li><a target="_blank" href="{{$configuracoes->twitter}}" title="Twitter"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/twitter.png')}}" alt="Twitter" /></a>
+                        @endif
+                        @if ($configuracoes->instagram)
+                            <li><a target="_blank" href="{{$configuracoes->instagram}}" title="Instagram"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/instagram.png')}}" alt="Instagram" /></a>
+                        @endif
+                        @if ($configuracoes->linkedin)
+                            <li><a target="_blank" href="{{$configuracoes->linkedin}}" title="linkedin"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/linkedin.png')}}" alt="linkedin" /></a>
+                        @endif
+                        @if ($configuracoes->youtube)
+                            <li><a target="_blank" href="{{$configuracoes->youtube}}" title="Youtube"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/youtube.png')}}" alt="Youtube" /></a>
+                        @endif
+                    </ul>
+                    <div class="clearfix"></div>
                 
-                <div class="clearfix"></div>
-                
-                <h2>Receba novidades no seu e-mail</h2>
+                    <h2>Receba novidades no seu e-mail</h2>
     
-                <!-- Begin MailChimp Signup Form -->
-                  <div id="mc_embed_signup">
+                    <!-- Begin MailChimp Signup Form -->
+                    <div id="mc_embed_signup">
                         <form action="" method="post" class="j_formsubmitnews">
                             <div class="alertas"></div>
                             <input class="noclear" type="hidden" name="action" value="newsletter" />
@@ -168,45 +211,32 @@
                             <input type="email" value="" name="email" class="email form_hide" placeholder="Digite seu e-mail"/>
                             <input type="submit" value="Cadastrar" id="submit" class="button subscribe-form-submit noclear form_hide"/>           
                         </form>                 
-                  </div>
-                  <!--End mc_embed_signup-->
-    
-                <div class="clearfix"></div>
-    
-              </div>
+                    </div>
+                    <!--End mc_embed_signup-->    
+                    <div class="clearfix"></div>    
+                </div>
               
-              <div class="span7">
-                <!-- PORÇÕES E DRINKS -->
-                <?php
-                // $readPorcoesRand1 = read('cardapio',"WHERE exibir = '1' AND id_pai IS NOT NULL ORDER BY RAND() LIMIT 6");
-                // foreach($readPorcoesRand1 as $porcoesRand1);
-                // if($porcoesRand1){
-                //     echo '<h2>Conheça Nosso Cardápio</h2>';
-                //     foreach($readPorcoesRand1 as $porcoesRands1):
-                //     echo '<div class="menu_list img_decoration">';
-                //     echo '<div class="span3">';
-                //     if($porcoesRands1['img'] == ''){
-                //        echo '<a href="'.BASE.'/pagina/cardapio/'.getCardapio($porcoesRands1['id_pai'], 'url').'"><img src="'.BASE.'/tim.php?src='.PATCH.'/images/image.jpg&w=770&h=511&q=100&zc=1" alt="'.$porcoesRands1['nome'].'" /></a>';
-                //     }else{
-                //        echo '<a href="'.BASE.'/pagina/cardapio/'.getCardapio($porcoesRands1['id_pai'], 'url').'"><img src="'.BASE.'/tim.php?src='.BASE.'/uploads/cardapio/'.$porcoesRands1['img'].'&w=770&h=511&q=100&zc=1" alt="'.$porcoesRands1['nome'].'"/></a>';
-                //     }
-                //     echo '</div>';
-                    
-                //     echo '<div class="span9" style="padding-left:5px;">';
-                //     echo '<h2>'.$porcoesRands1['nome'].'</h2>';
-                //     echo ''.$porcoesRands1['content'].'';
-                //     echo '</div>';
-                    
-                //     echo '</div>';
-                //     echo '<div class="clearfix"></div>';
-                //     endforeach;                
-                // }else{
-                //     echo '';
-                // }	
-                ?>
-              </div>
-    
-             
+                <div class="span7">
+                    <!-- PORÇÕES E DRINKS -->
+                    @if (!empty($Cardapio) && $Cardapio->count() > 0)
+                        <h2>Conheça Nosso Cardápio</h2>
+                        @foreach ($Cardapio as $item)
+                            <div class="menu_list img_decoration">
+                                <div class="span3 gallery">
+                                    <a href="" title="{{$item->titulo}}">
+                                        <img src="{{$item->cover()}}" alt="{{$item->titulo}}" />
+                                    </a>
+                                </div>
+                                <div class="span9" style="padding-left:5px;">
+                                    <h2>{{$item->titulo}}</h2>
+                                    {!!$item->content!!}
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        @endforeach
+                    @endif                
+                </div>  
+            </div>
         </div>
     </footer>
 

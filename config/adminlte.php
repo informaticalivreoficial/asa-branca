@@ -243,6 +243,11 @@ return [
             'icon' => 'fas fa-cog',
         ],
         [
+            'text' => 'Menu',
+            'url'  => 'admin/menus',
+            'icon' => 'fas fa-bars',
+        ],
+        [
             'text' => 'Usuários',            
             'icon' => 'fas fa-fw fa-users',
             'submenu' => [
@@ -257,6 +262,46 @@ return [
                 [
                     'text' => 'Criar Novo',
                     'url'  => 'admin/usuarios/create',
+                ]
+            ]
+        ],
+        [
+            'text' => 'Cardápio',            
+            'icon' => 'fas fa-fw fa-book-open',
+            'submenu' => [
+                [
+                    'text' => 'Listar Itens',
+                    'url'  => 'admin/cardapio',
+                ],
+                [
+                    'text' => 'Cadastrar Item',
+                    'url'  => 'admin/cardapio/cadastrar',
+                ],
+                [
+                    'text' => 'Categorias',
+                    'url'  => 'admin/cardapio/categorias',
+                ],
+            ]
+        ],
+        [
+            'text' => 'Posts',            
+            'icon' => 'fas fa-fw fa-pen',
+            'submenu' => [
+                [
+                    'text' => 'Cadastrar Post',
+                    'url'  => 'admin/posts/create',
+                ],                
+                [
+                    'text' => 'Artigos',
+                    'url'  => 'admin/posts/artigos',
+                ],
+                [
+                    'text' => 'Páginas',
+                    'url'  => 'admin/posts/paginas',
+                ],
+                [
+                    'text' => 'Categorias',
+                    'url'  => 'admin/posts/categorias',
                 ]
             ]
         ],

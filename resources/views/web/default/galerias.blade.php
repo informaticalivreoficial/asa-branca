@@ -1,67 +1,51 @@
 @extends("web.{$configuracoes->template}.master.master")
 
 @section('content')
-
-    <section class="banner-tems text-center">
-        <div class="container">
-            <div class="banner-content">
-                <h2 class="h2sombra">Galerias</h2>
-                <p>&nbsp;</p>
-            </div>
+    <div class="container main_content">        
+        <div class="divisor">
+            <div class="circle_left"></div>
+            <span class="shadow_divisor"></span>
+            <div class="circle_right"></div>
         </div>
-    </section>
-
-    @if (!empty($galerias) && $galerias->count() > 0)
-        <div class="gallery-our wrap-gallery-restaurant gallery_1">
-            <div class="container">
-                <div class="gallery gallery-restaurant">  
-                        <ul class="nav nav-tabs text-uppercase">
-                            @foreach ($galerias as $key => $item)
-                                <li class="{{($key == 0 ? 'active' : '')}}">
-                                    <a data-toggle="tab" href="#{{$item->id}}">{{$item->titulo}}</a>
-                                </li>
-                            @endforeach                   
-                        </ul>
-                    <br/>
-
-                    <div class="tab-content">                    
-                        @foreach ($galerias as $key => $galeria)
-                            <div id="{{$galeria->id}}" class="tab-pane fade in {{($key == 0 ? 'active' : '')}}"> 
-                                <div class="product "> 
-                                    <div class="row">
-                                        @if ($galeria->images()->get()->count())
-                                            @foreach ($galeria->images()->get() as $gb)
-                                                <div class="gallery_product col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
-                                                    <div class="wrap-box">
-                                                        <div class="box-img">
-                                                            <img src="{{ $gb->url_image }}" class="img img-responsive" alt="{{$galeria->titulo}}" title="{{$galeria->titulo}}">
-                                                        </div>
-                                                        <div class="gallery-box-main " title>
-                                                            <div class="gallery-icon">
-                                                                <a href="{{route('web.galeria',['slug' => $galeria->slug ])}}" title="{{$galeria->titulo}}"><i class="ion-ios-plus-empty" aria-hidden="true" ></i> </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        @endif
+        <div class="title">
+            <h2>Galeria de Fotos</h2>
+        </div>
+    </div>
+    
+    <div class="row-fluid comfundo" style="padding-bottom: 50px;padding-top: 20px;">
+        <div class="container main_content" style="padding-bottom: 50px;padding-top: 20px;">
+            @if (!empty($galerias) && $galerias->count() > 0)
+                <div class="row-fluid">
+                    <div class="">
+                        @foreach ($galerias as $galeria)
+                            <div class="span4">
+                                <div class="image_hover" style="border: 6px solid #fff; box-shadow: 0px 0px 2px rgba(0,0,0,0.5);">
+                                    <a title="{{$galeria->titulo}}" href="{{route('web.galeria',['slug' => $galeria->slug])}}">
+                                        <img class="img" src="{{$galeria->cover()}}" alt="{{$galeria->titulo}}" />
+                                    </a>
+                                    <div class="info_hover">
+                                        <div class="text_hover">
+                                            <h3>{{$galeria->titulo}}</h3>
+                                            <p>&nbsp;</p>
+                                            <a title="{{$galeria->titulo}}" href="{{route('web.galeria',['slug' => $galeria->slug])}}" class="button">+ Ver as Fotos</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         @endforeach
-                    </div>                    
-                </div>                
-            </div>            
-        </div>
-    @endif 
-
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            @endif                   
+        </div>            
+    </div>
 @endsection
 
 @section('css')
     <style>
         .img{
-            width: 260px !important;
-            height: 169px !important;
+            width: 358px !important;
+            height: 241px !important;
         }
     </style>
 @endsection

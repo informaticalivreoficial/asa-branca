@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use App\Models\{
+    Cardapio,
+    CardapioCat,
     Post,
     CatPost,
     Cidades,
@@ -48,6 +50,7 @@ class WebController extends Controller
                     ->where('expira', '>=', Carbon::now())
                     ->get();   
         $galerias = Galeria::orderBy('created_at', 'DESC')->available()->limit(12)->get();
+        $cardapio = Cardapio::inRandomOrder()->available()->limit(6)->get();
         
         $head = $this->seo->render($this->configService->getConfig()->nomedosite ?? 'Informática Livre',
             $this->configService->getConfig()->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
@@ -58,7 +61,8 @@ class WebController extends Controller
 		return view('web.'.$this->configService->getConfig()->template.'.home',[
             'head' => $head,            
             'slides' => $slides,
-            'galerias' => $galerias
+            'galerias' => $galerias,
+            'cardapio' => $cardapio
 		]);
     }
 
@@ -88,9 +92,6 @@ class WebController extends Controller
             'head' => $head
         ]);
     }
-
-       
-
 
     public function pagina($slug)
     {
@@ -124,9 +125,6 @@ class WebController extends Controller
             'head' => $head            
         ]);
     }
-
-
-
 
     public function sitemap()
     {
@@ -167,9 +165,24 @@ class WebController extends Controller
         ]);
     } 
 
-    // public function addCountAgenda(Request $request)
-    // {
-    //     $agenda = Agenda::
-    //     return response()->json(['success' => $request->all()]);
-    // }
+    public function cardapio($categoria)
+    {
+        $categoria = CardapioCat::where('slug', $categoria)->first();
+        $cardapio = Cardapio::orderBy('created_at', 'Desc')
+                            ->available()
+                            ->where('categoria', $categoria->id)
+                            ->get();
+
+        $head = $this->seo->render('Cardápio - ' . $categoria->titulo . ' - ' . $this->configService->getConfig()->nomedosite,
+            'Cardápio - ' . $categoria->titulo,
+            route('web.cardapio', ['categoria' => $categoria->slug]),
+            $this->configService->getConfig()->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
+        );
+
+        return view('web.'.$this->configService->getConfig()->template.'.cardapio',[
+            'head' => $head,
+            'categoria' => $categoria,
+            'cardapio' => $cardapio
+        ]);
+    }
 }

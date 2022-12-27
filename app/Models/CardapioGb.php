@@ -13,7 +13,7 @@ class CardapioGb extends Model
     protected $table = 'cardapio_gb'; 
 
     protected $fillable = [
-        'post',
+        'cardapio',
         'path',
         'cover'
     ];

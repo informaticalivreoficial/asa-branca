@@ -20,13 +20,13 @@
     <div class="row">
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="info-box">
-                <span class="info-box-icon bg-success"><a href="" title="Galerias"><i class="fa far fa-images"></i></a></span>
+                <span class="info-box-icon bg-success"><a href="{{route('galerias.index')}}" title="Galerias"><i class="fa far fa-images"></i></a></span>
 
                 <div class="info-box-content">
                     <span class="info-box-text"><b>Galerias</b></span>
-                    <span class="info-box-text">Ativas: </span>
-                    <span class="info-box-text">Inativas: </span>
-                    <span class="info-box-text">Fotos: </span>
+                    <span class="info-box-text">Ativas: {{ $galeriasAvailable }}</span>
+                    <span class="info-box-text">Inativas: {{ $galeriasUnavailable }}</span>
+                    <span class="info-box-text">Fotos: {{ $galeriasImages }}</span>
                 </div>            
             </div>
         </div>

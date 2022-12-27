@@ -1,0 +1,7 @@
+@media (min-width: 768px){
+    .gallery img {
+        width: 162px !important;
+        height: 121px !important;
+    }
+}
+    
