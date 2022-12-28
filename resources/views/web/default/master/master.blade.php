@@ -223,7 +223,7 @@
                         @foreach ($Cardapio as $item)
                             <div class="menu_list img_decoration">
                                 <div class="span3 gallery">
-                                    <a href="" title="{{$item->titulo}}">
+                                    <a href="{{route('web.cardapio', ['categoria' => $item->categoriaObject->slug])}}" title="{{$item->titulo}}">
                                         <img src="{{$item->cover()}}" alt="{{$item->titulo}}" />
                                     </a>
                                 </div>

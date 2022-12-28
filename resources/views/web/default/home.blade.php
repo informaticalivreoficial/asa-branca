@@ -27,7 +27,7 @@
                             <div class="row-fluid img_decoration">
                                 @foreach ($cardapio as $item)
                                 <div class="span2 gallery">
-                                    <a href="'.BASE.'/pagina/cardapio/'.getCardapio($porcoesRands['id_pai'], 'url').'" title="{{$item->titulo}}">
+                                    <a href="{{route('web.cardapio', ['categoria' => $item->categoriaObject->slug])}}" title="{{$item->titulo}}">
                                         <img src="{{$item->cover()}}" alt="{{$item->titulo}}"/>
                                     </a>
                                 </div>

@@ -34,6 +34,19 @@
                 <pubDate>{{ $post->created_at }}</pubDate>
             </item>
         @endforeach
+
+        @foreach($cardapio as $item)
+            <item>
+                <title><![CDATA[{{ $item->titulo }}]]></title>
+                <link>{{ url('cardapio/'.$item->categoriaObject->slug) }}</link>
+                <image>{{ $item->cover() }}</image>
+                <description><![CDATA[{!! $item->getContentWebAttribute() !!}]]></description>
+                <category>{{ $item->categoriaObject->titulo }}</category>
+                <author><![CDATA[{{ $configuracoes->nomedosite }}]]></author>
+                <guid>{{ $item->id }}</guid>
+                <pubDate>{{ $item->created_at }}</pubDate>
+            </item>
+        @endforeach
         
     </channel>
 </rss>

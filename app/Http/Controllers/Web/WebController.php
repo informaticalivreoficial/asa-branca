@@ -171,7 +171,7 @@ class WebController extends Controller
         $cardapio = Cardapio::orderBy('created_at', 'Desc')
                             ->available()
                             ->where('categoria', $categoria->id)
-                            ->get();
+                            ->paginate(16);
 
         $head = $this->seo->render('Cardápio - ' . $categoria->titulo . ' - ' . $this->configService->getConfig()->nomedosite,
             'Cardápio - ' . $categoria->titulo,
