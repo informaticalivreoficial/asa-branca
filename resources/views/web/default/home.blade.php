@@ -41,52 +41,37 @@
             @endif            
                 
             
-            <!-- BUSCA OS IMÓVEIS NO ALUGUÉIS UBATUBA -->  
-            <?php
-            // $readImoveis = read2('imoveis',"WHERE status = '1' ORDER BY RAND() LIMIT 3");
-            // foreach($readImoveis as $imovel);
-            // if($imovel){
-            //     echo '<div class="title">';
-            //     echo '<h2>Locação Para Temporada</h2>';
-            //     echo '</div>';
-                
-            //     echo '<div class="row-fluid">';
-            //     echo '<div class="banner" style="margin-top: 0px;">';
-            //     foreach($readImoveis as $imoveis):
-            //         echo '<div class="span4">';
-            //         echo '<div class="image_hover">';
-            //         echo '<a target="_blank" href="https://alugueisubatuba.com.br/pagina/imovel/'.$imoveis['url'].'">';
-            //         if($imovel['img'] == ''){
-            //         echo '<img src="'.PATCH.'/images/image.jpg&w=370&h=260&q=100&zc=1" alt="'.$imoveis['nome'].'" />';
-            //         }else{
-            //         echo '<img src="https://alugueisubatuba.com.br/tim.php?src=https://alugueisubatuba.com.br/uploads/imoveis/'.$imoveis['img'].'&w=370&h=260&q=100&zc=1" alt="'.$imoveis['nome'].'" />';
-            //         }
-            //         echo '</a>';
-            //         echo '<div class="info_hover">';
-            //         echo '<div class="text_hover">';
-            //         echo '<h3>'.$imoveis['nome'].'</h3>';
-            //         echo '<p>bulum molestie lacunean nonumm ... </p>';
-            //         echo '<a target="_blank" href="https://alugueisubatuba.com.br/pagina/imovel/'.$imoveis['url'].'" class="button">+ detalhes</a>';
-            //         echo '</div>';
-            //         echo '</div>';
-            //         echo '</div>';
-            //         echo '</div>';
-            //     endforeach;
-            //     echo '</div>';
-            //     echo '</div>';
-                
-            //     echo '<div class="clearfix"></div>';
-                
-            //     echo '<!-- divisor -->';
-            //     echo '<div class="divisor">';
-            //     echo '<div class="circle_left"></div>';
-            //     echo '<div class="circle_right"></div>';
-            //     echo '</div>';
-            //     echo '<!-- divisor -->';
-            // }else{
-            //     echo '';
-            // }
-            ?>
+            {{-- BUSCA OS IMÓVEIS NO ALUGUÉIS UBATUBA --}}            
+            @if (!empty($imoveis) && count($imoveis) > 0)
+                <div class="title">
+                    <h2>Locação Para Temporada</h2>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="banner" style="margin-top: 0px;">
+                        @foreach ($imoveis as $key => $imovel)
+                            @if ($key <= 2)
+                                <div class="span4">
+                                    <div class="image_hover">
+                                        <a target="_blank" href="{{$imovel['url']}}">
+                                            <img src="{{$imovel['thumb']}}" alt="{{$imovel['titulo']}}" />
+                                        </a>
+                                        <div class="info_hover">
+                                            <div class="text_hover">
+                                                <h3>{{$imovel['titulo']}}</h3>
+                                                <p>{{\App\Helpers\Renato::Words($imovel['content'], 12)}}</p>
+                                                <a target="_blank" href="{{$imovel['url']}}" class="button">+ detalhes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif                            
+                        @endforeach
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+            @endif  
             
         </div>    
     </div> 

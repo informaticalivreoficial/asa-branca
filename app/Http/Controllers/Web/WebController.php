@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 use App\Models\{
+    AlugueisClone,
     Cardapio,
     CardapioCat,
     Post,
@@ -22,11 +24,12 @@ use App\Services\ConfigService;
 use App\Services\EstadoService;
 use App\Support\Seo;
 use Carbon\Carbon;
+use Goutte\Client;
 
 class WebController extends Controller
 {
     protected $configService, $estadoService;
-    protected $seo;
+    protected $seo, $crowler;
 
     public function __construct(
         ConfigService $configService, 
@@ -34,7 +37,8 @@ class WebController extends Controller
     {
         $this->configService = $configService;
         $this->estadoService = $estadoService;
-        $this->seo = new Seo();        
+        $this->seo = new Seo();    
+        $this->crowler = new Client();    
     }
 
     public function fetchCity(Request $request)
@@ -51,6 +55,19 @@ class WebController extends Controller
                     ->get();   
         $galerias = Galeria::orderBy('created_at', 'DESC')->available()->limit(12)->get();
         $cardapio = Cardapio::inRandomOrder()->available()->limit(6)->get();
+
+        $url  = 'https://alugueisubatuba.com.br/imoveis/locacao';
+        $page = $this->crowler->request('GET', $url);
+        $result = $page->filter('.room-list .room')->each( function ($item){
+            
+            $this->results[] = [            
+                 'titulo'  => $item->filter('h4')->text(),
+                 'content' => $item->filter('.description')->text(),            
+                 'thumb' => $item->filter('img')->attr('src'),
+                 'url' => $item->filter('a')->attr('href'),
+            ];
+            
+        });
         
         $head = $this->seo->render($this->configService->getConfig()->nomedosite ?? 'Informática Livre',
             $this->configService->getConfig()->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
@@ -62,7 +79,8 @@ class WebController extends Controller
             'head' => $head,            
             'slides' => $slides,
             'galerias' => $galerias,
-            'cardapio' => $cardapio
+            'cardapio' => $cardapio,
+            'imoveis' => $this->results
 		]);
     }
 
