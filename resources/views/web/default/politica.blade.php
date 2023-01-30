@@ -1,29 +1,24 @@
 @extends("web.{$configuracoes->template}.master.master")
 
 @section('content')
-<section class="banner-tems text-center">
-    <div class="container">
-        <div class="banner-content">
-            <h2>Política de Privacidade</h2>
-        </div>
-    </div>
-</section>
 
-<section class="section-about">
-    <div class="container">
-        <div class="row">
-            <div class="wrap-about">               
-                <div class="about-item" style="padding:10px;">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="text">
-                            <div class="desc">
-                                {!! $configuracoes->politicas_de_privacidade !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>                                       
-            </div>
-        </div>
+<div class="container main_content">        
+    <div class="divisor">
+        <div class="circle_left"></div>
+        <span class="shadow_divisor"></span>
+        <div class="circle_right"></div>
     </div>
-</section>
+    <div class="title">
+        <h2>Política de Privacidade</h2>
+    </div>
+</div>
+<div class="row-fluid comfundo">
+    <div class="container main_content" style="padding-bottom: 50px;padding-top: 20px;">    
+      <div class="row-fluid">        
+          <div class="span12">
+            {!! $configuracoes->politicas_de_privacidade !!}
+          </div>
+      </div>          
+    </div>        
+</div>
 @endsection
