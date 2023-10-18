@@ -181,19 +181,19 @@
                     @endif 
                     <ul class="social">
                         @if ($configuracoes->facebook)
-                            <li><a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/facebook.png')}}" alt="Facebook" /></a>
+                            <li><a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/facebook.png')}}" alt="Facebook" /></a></li>
                         @endif
                         @if ($configuracoes->twitter)
-                            <li><a target="_blank" href="{{$configuracoes->twitter}}" title="Twitter"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/twitter.png')}}" alt="Twitter" /></a>
+                            <li><a target="_blank" href="{{$configuracoes->twitter}}" title="Twitter"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/twitter.png')}}" alt="Twitter" /></a></li>
                         @endif
                         @if ($configuracoes->instagram)
-                            <li><a target="_blank" href="{{$configuracoes->instagram}}" title="Instagram"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/instagram.png')}}" alt="Instagram" /></a>
+                            <li><a target="_blank" href="{{$configuracoes->instagram}}" title="Instagram"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/instagram.png')}}" alt="Instagram" /></a></li>
                         @endif
                         @if ($configuracoes->linkedin)
-                            <li><a target="_blank" href="{{$configuracoes->linkedin}}" title="linkedin"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/linkedin.png')}}" alt="linkedin" /></a>
+                            <li><a target="_blank" href="{{$configuracoes->linkedin}}" title="linkedin"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/linkedin.png')}}" alt="linkedin" /></a></li>
                         @endif
                         @if ($configuracoes->youtube)
-                            <li><a target="_blank" href="{{$configuracoes->youtube}}" title="Youtube"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/youtube.png')}}" alt="Youtube" /></a>
+                            <li><a target="_blank" href="{{$configuracoes->youtube}}" title="Youtube"><img width="32" src="{{url('frontend/'.$configuracoes->template.'/assets/images/social/youtube.png')}}" alt="Youtube" /></a></li>
                         @endif
                     </ul>
                     <div class="clearfix"></div>
