@@ -30,6 +30,7 @@ class WebController extends Controller
 {
     protected $configService, $estadoService;
     protected $seo, $crowler;
+    protected $results = [];
 
     public function __construct(
         ConfigService $configService, 
@@ -56,12 +57,12 @@ class WebController extends Controller
         $galerias = Galeria::orderBy('created_at', 'DESC')->available()->limit(12)->get();
         $cardapio = Cardapio::inRandomOrder()->available()->limit(6)->get();
 
-        $url  = 'https://alugueisubatuba.com.br/imoveis/locacao';
+        $url  = 'https://alugueisubatuba.com.br';
         $page = $this->crowler->request('GET', $url);
-        $result = $page->filter('.room-list .room')->each( function ($item){
-            
+        $result = $page->filter('.property  .bg-card')->each( function ($item){
+        
             $this->results[] = [            
-                 'titulo'  => $item->filter('h4')->text(),
+                 'titulo'  => $item->filter('h3')->text(),
                  'content' => $item->filter('.description')->text(),            
                  'thumb' => $item->filter('img')->attr('src'),
                  'url' => $item->filter('a')->attr('href'),
